@@ -27,14 +27,6 @@ def get_product_field(product_name, product_field):
     product = data.get(product_name)
     if not product:
         abort(404, description=f"Product '{product_name}' not found.")
-    value = product.get(product_field)
-    if not value:
-        abort(404, description=f"Value '{value}' not found.")
-    return jsonify({product_field: value})
-def get_product_field(product_name, product_field):
-    product = data.get(product_name)
-    if not product:
-        abort(404, description=f"Product '{product_name}' not found.")
     if product_field in product:
         return jsonify({product_field: product[product_field]})
     nutrition = product.get({})
