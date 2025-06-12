@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, abort
 import json
 
 app = Flask(__name__)
@@ -16,15 +16,32 @@ def all_products():
 @app.route('/products/<product_name>', methods=['GET'])
 def get_product(product_name):
     product = data.get(product_name)
+    if not product:
+        abort(404, description=f"Product '{product_name}' not found.")
     return jsonify({product_name: product})
 
 
-# 3. get: //products/{product_name}/{product_field} - return information about exact field  exact product
+# 3. get: /products/{product_name}/{product_field} - return information about exact field  exact product
 @app.route('/products/<product_name>/<product_field>', methods=['GET'])
 def get_product_field(product_name, product_field):
     product = data.get(product_name)
-    field_value = product.get(product_field)
-    return jsonify({product_field: field_value})
+    if not product:
+        abort(404, description=f"Product '{product_name}' not found.")
+    value = product.get(product_field)
+    if not value:
+        abort(404, description=f"Value '{value}' not found.")
+    return jsonify({product_field: value})
+def get_product_field(product_name, product_field):
+    product = data.get(product_name)
+    if not product:
+        abort(404, description=f"Product '{product_name}' not found.")
+    if product_field in product:
+        return jsonify({product_field: product[product_field]})
+    nutrition = product.get({})
+    if product_field in nutrition:
+        return jsonify({product_field: nutrition[product_field]})
+
+    abort(404, description=f"Field '{product_field}' not found for product '{product_name}'.")
 
 if __name__ == '__main__':
     app.run(debug=True)
