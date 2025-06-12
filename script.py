@@ -12,15 +12,12 @@ async def get_items(url):
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
         
-        # Navigate to the URL
         response = await page.goto(url)
         if not response or response.status != 200:
             raise Exception(f"Failed to fetch page: {url} (status code {response.status if response else 'N/A'})")
-
-        # Wait for <li> elements to appear
+            
         await page.wait_for_selector('a[href]')
 
-        # Find all <a> elements with an href attribute
         anchors = await page.query_selector_all('a[href]')
 
         for a in anchors:
