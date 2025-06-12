@@ -15,7 +15,7 @@ async def get_items(url):
         response = await page.goto(url)
         if not response or response.status != 200:
             raise Exception(f"Failed to fetch page: {url} (status code {response.status if response else 'N/A'})")
-
+            
         await page.wait_for_selector('a[href]')
 
         anchors = await page.query_selector_all('a[href]')
@@ -99,7 +99,6 @@ async def get_info(OUTPUT_FILE):
         with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
             json.dump(results, f, ensure_ascii=False, indent=4)
         
-    
 
 async def main():
     await get_items('https://www.mcdonalds.com/ua/uk-ua/eat/fullmenu.html')
