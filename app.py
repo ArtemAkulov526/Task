@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, abort
+from flask import Flask, jsonify, abort, render_template
 import json
 
 app = Flask(__name__)
@@ -6,6 +6,9 @@ app = Flask(__name__)
 with open('data.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
+@app.route('/')
+def index():
+    return render_template('index.html', products=data)
 
 # 1. get: /all_products/  - return all information about all products
 @app.route('/all_products/', methods=['GET'])

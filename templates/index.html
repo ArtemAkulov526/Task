@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Меню McDonald's</title>
+</head>
+<body>
+    <h1>Список продуктів</h1>
+    {% for product in products %}
+        <div>
+            <h2>{{ product['Назва'] }}</h2>
+            <p><strong>Опис:</strong> {{ product['Опис'] }}</p>
+            <h3>Поживна цінність:</h3>
+            <ul>
+                {% for key, value in product['Поживна цінність'].items() %}
+                    <li>{{ key }}: {{ value }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <hr />
+    {% endfor %}
+</body>
+</html>
+
